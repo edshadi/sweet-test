@@ -11,14 +11,17 @@ class Awesome
   def ness_up
     self.ness += 1
   end
+  def awesome?
+    self.ness > 0
+  end
 end
 
 describe Awesome do
   let(:awesome) { Awesome.new }
   describe "#ness" do
     it "is inititalized with zero" do
+      expect(awesome.ness).to_not.be_nil
       expect(awesome.ness).to.eq(0)
-      expect(awesome.ness).to_not.eq(3)
     end
   end
 
@@ -35,6 +38,16 @@ describe Awesome do
     it "increments the ness" do
       a = awesome
       expect { a.ness_up }.to.change { a.ness }
+    end
+  end
+
+  describe "#awesome?" do
+    it "is false if ness is less 0" do
+      expect(awesome.awesome?).to_not.be_true
+    end
+    it "is true if ness is higher than 0" do
+      a = awesome
+      expect { a.ness_up }.to.change { a.awesome? }
     end
   end
 end

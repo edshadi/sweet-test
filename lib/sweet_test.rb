@@ -58,18 +58,13 @@ module SweetTest
       assert @actual, true
     end
 
-    def be_false
-      assert @actual, false
+    def be_nil
+      assert @actual, nil
     end
 
     def assert actual, expected
       lets_assert = @assert ? actual == expected : actual != expected
-      lets_assert ||= "false: expected #{expected}, got #{actual}"
-      sweet_print lets_assert
-    end
-
-    def sweet_print result
-      puts "#{"."*5} #{result}"
+      puts lets_assert || "[FAILURE]: expected #{expected}, got #{actual}"
     end
   end
 end
