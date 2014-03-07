@@ -1,12 +1,14 @@
 # it's better than Rspec, it's SweetTest :)
 
 def describe description
+  puts "-"*50
   puts description
+  puts "-"*50
   yield
 end
 
 def it description, &block
-  puts description
+  puts "- #{description}"
   block.call
 end
 
@@ -62,8 +64,12 @@ module SweetTest
 
     def assert actual, expected
       lets_assert = @assert ? actual == expected : actual != expected
-      puts lets_assert || "false: expected #{expected}, got #{actual}"
+      lets_assert ||= "false: expected #{expected}, got #{actual}"
+      sweet_print lets_assert
     end
 
+    def sweet_print result
+      puts "#{"."*5} #{result}"
+    end
   end
 end

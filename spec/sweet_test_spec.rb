@@ -1,11 +1,12 @@
-require_relative 'sweet_test'
+require_relative '../lib/sweet_test'
 class Awesome
   attr_accessor :ness
   def initialize
     @ness = 0
   end
   def hello name
-    name
+    raise ArgumentError.new("name must be a string") unless name.is_a?(String)
+    "hello #{name}, your awesomeness is #{self.ness}"
   end
   def ness_up
     self.ness += 1
@@ -22,14 +23,16 @@ describe Awesome do
   end
 
   describe "#hello" do
-    it "it raises an Argument error if no name is given" do
-      expect { awesome.hello }.to.raise_error(ArgumentError)
+    it "it raises an Argument error if name is not a string" do
+      expect { awesome.hello(1) }.to.raise_error(ArgumentError)
+    end
+    it "returns a hello message" do
+      expect(awesome.hello("shadi")).to.eq("hello shadi, your awesomeness is 0")
     end
   end
 
   describe "#ness_up" do
     it "increments the ness" do
-      # pop quiz: why do we have to do line 33? remember our library is not as sofisticated as Rspec, so the let doesn't really run before each it, it just defines a method...this one is tricky, come talk to me about it :)
       a = awesome
       expect { a.ness_up }.to.change { a.ness }
     end
